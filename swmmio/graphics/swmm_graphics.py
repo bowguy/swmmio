@@ -114,7 +114,7 @@ def draw_model(model=None, nodes=None, conduits=None, parcels=None, title=None,
     return img
 
 
-def create_map(model=None, filename=None, basemap=None, auto_open=False):
+def create_map(model=None, filename=None, basemap=None, auto_open=False,nodesgojson=None,linksgeojson=None):
     """
     export model as a geojson object
     """
@@ -139,8 +139,14 @@ def create_map(model=None, filename=None, basemap=None, auto_open=False):
         with open(filename, 'w') as newmap:
             for line in bm:
                 if 'INSERT GEOJSON HERE' in line:
-                    newmap.write(f'conduits = {geojson.dumps(model.links.geojson)}\n')
-                    newmap.write(f'nodes = {geojson.dumps(model.nodes.geojson)}\n')
+                    if linksgeojson is None:
+                        newmap.write(f'conduits = {geojson.dumps(model.links.geojson)}\n')
+                    else:
+                        newmap.write(f'conduits = {linksgeojson}\n')
+                    if nodesgeojson is None:
+                        newmap.write(f'nodes = {geojson.dumps(model.nodes.geojson)}\n')
+                    else:
+                        newmap.write(f'conduits = {nodesgeojson}\n')
                 elif '// INSERT MAP CENTER HERE' in line:
                     newmap.write('\tcenter:[{}, {}],\n'.format(c[0], c[1]))
                 elif '// INSERT BBOX HERE' in line and bbox is not None:
