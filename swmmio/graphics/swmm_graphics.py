@@ -146,7 +146,7 @@ def create_map(model=None, filename=None, basemap=None,nodesgeojson=None,linksge
                     if nodesgeojson is None:
                         newmap.write(f'nodes = {geojson.dumps(model.nodes.geojson)}\n')
                     else:
-                        newmap.write(f'conduits = {nodesgeojson}\n')
+                        newmap.write(f'nodes = {nodesgeojson}\n')
                 elif '// INSERT MAP CENTER HERE' in line:
                     newmap.write('\tcenter:[{}, {}],\n'.format(c[0], c[1]))
                 elif '// INSERT BBOX HERE' in line and bbox is not None:
